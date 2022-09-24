@@ -1,0 +1,23 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Formulario Blog</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Formulario Blog</h1>
+    <p>Formulario para crear un blog</p>
+
+    <form action="/form_blog/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+        <table>
+            {{ formulario.as_table }}
+        </table>
+        
+        <input type="submit", value="Enviar">
+        </form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Inicio</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Inicio</h1>
+    <p>Pues el Inicio</p>
+    <h2>
+        Mensaje: {{ mensaje }}
+    </h2>
+    <ul>
+        <li><a href="{% url 'form_blog' %}">Crear blog</a></li>
+        <li><a href="{% url 'busqueda_blog' %}">Buscar blog</a></li>
+    </ul>
+
+{% endblock %}

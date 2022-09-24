@@ -1,0 +1,23 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Páginas</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Páginas</h1>
+    <p>Acá va a estar el listado de todos los blogs de la página</p>
+
+    {% for blog in blogs %}
+
+    <h3>Blog ID: {{ blog.id_blog }}</h3>
+    <p>Título: {{ blog.titulo }}</p>
+    <p>Fecha de posteo: {{ blog.fecha_posteo }}</p>
+    <p>-------------------</p>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Buscar blog</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Búsqueda de blogs</h1>
+    <p>Buscar blogs por GET</p>
+    
+    <form action="/blog/" method="GET">
+        <input type="number" name="id_blog" id="id_blog">
+
+        <input type="submit" value="Buscar">
+    </form>   
+    
+
+{% endblock %}
