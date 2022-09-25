@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
-from AppBlogs.forms import Formulario_blog, UserRegisterForm
+from AppBlogs.forms import Formulario_blog, UserRegisterForm, UserEditForm
 from AppBlogs.models import Blog
 import datetime
 
@@ -101,3 +101,20 @@ def login_request(request):
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {"form": form})
+
+@login_required
+def editar_perfil(request):
+    usuario = request.user
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance = usuario)
+        if form.is_valid():
+            #info = form.cleaned_data
+            #usuario.email = info["email"]
+            #usuario.password1 = info["password1"]
+            #usuario.password2 = info["password2"]
+            #usuario.save()
+            form.save()
+            return render(request, 'inicio.html', {"mensaje": f"Perfil de {usuario} editado"})
+    else:
+        form = UserEditForm(instance = usuario)
+    return render(request, 'editar_perfil.html', {"form": form, "usuario": usuario})

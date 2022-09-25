@@ -1,0 +1,26 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Editar perfil</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Editar perfil</h1>
+    <p>Página para editar perfil</p>
+
+    <h1>Editando perfil {{ usuario }}</h1> 
+    <form action="{% url 'editar_perfil' %}" method ="POST">
+
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button type="submit"> Registrarse</button>
+
+    </form>
+
+    <h1>{{ mensaje }}</h1>
+
+{% endblock %}

@@ -12,10 +12,16 @@
     <header>
         <nav>
             <ul>
-                <li><a href="{% url 'form_blog' %}">Crear blog</a></li>
                 <li><a href="{% url 'busqueda_blog' %}">Buscar blog</a></li>
+                <li><a href="{% url 'pages' %}">Ver todos los blogs</a></li>
+                {% if not request.user.is_authenticated %}
                 <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
                 <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% else %}
+                <li><a href="{% url 'form_blog' %}">Crear blog</a></li>
+                <li><a href="{% url 'editar_perfil' %}">Editar perfil</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
