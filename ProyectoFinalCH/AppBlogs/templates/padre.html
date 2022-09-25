@@ -9,7 +9,18 @@
     {% endblock %}
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'form_blog' %}">Crear blog</a></li>
+                <li><a href="{% url 'busqueda_blog' %}">Buscar blog</a></li>
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
     
+
     {% block body %}
 
     {% endblock %}

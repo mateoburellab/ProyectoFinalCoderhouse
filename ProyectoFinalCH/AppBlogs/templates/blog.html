@@ -17,18 +17,5 @@
     <br>
     <p>{{ blog.cuerpo }}</p>
     {% endif %}
-    {% if blogs %}
-
-    <ul>
-        {% for blog in blogs %}
-
-        <li>Título: {{ blog.titulo }}</li>
-        <li>ID: {{ blog.id_blog }}</li>
-        <li></li>
-
-        {% endfor %}
-    </ul>
-
-    {% endif %}
 
 {% endblock %}

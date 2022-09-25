@@ -1,0 +1,25 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Iniciar sesión</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Iniciar sesión</h1>
+    <p>Formulario para iniciar sesión</p>
+    <h1>{{ mensaje }}</h1>
+
+
+    <form action="{% url 'login' %}" method="POST">
+        
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <input type="submit", value="Enviar">
+
+    </form>
+
+{% endblock %}

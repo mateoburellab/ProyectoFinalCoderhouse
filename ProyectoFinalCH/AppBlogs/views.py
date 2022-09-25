@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
-from AppBlogs.forms import Formulario_blog
+from AppBlogs.forms import Formulario_blog, UserRegisterForm
 from AppBlogs.models import Blog
 import datetime
+
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -27,6 +32,7 @@ def pages(request):
     documento = plantilla.render(diccionario)
     return HttpResponse(documento)
 
+@login_required
 def form_blog(request):
     if (request.method == "POST"):
         formulario = Formulario_blog(request.POST, request.FILES)
@@ -65,3 +71,33 @@ def blog(request):
         respuesta = "No enviaste datos"
     
     return HttpResponse(respuesta)
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            form.save()
+            return render(request,"inicio.html", {"mensaje":f"Usuario Creado {username} :)"})
+    else:    
+        form = UserRegisterForm()
+    return render(request,"register.html", {"form": form})
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            usu = request.POST["username"]
+            clave = request.POST["password"]
+
+            usuario = authenticate(username=usu, password=clave)
+            if usuario is not None:
+                login(request, usuario)
+                return render(request, 'inicio.html', {"mensaje":f"Bienvenido {usuario}"})
+            else:
+                return render(request, 'login.html', {"form": form, "mensaje": 'Usuario o contraseña incorrectos'})
+        else:
+                return render(request, 'login.html', {"form": form, "mensaje": 'Usuario o contraseña incorrectos'})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'login.html', {"form": form})
