@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
@@ -59,8 +60,13 @@ def blog(request):
     if request.GET["id_blog"]:
         id_blog = request.GET["id_blog"]
         blog = Blog.objects.get(id_blog__icontains = id_blog)
+        condicion = False
+        if (blog.autor == request.user.username):
+            condicion = True
+        else:
+            condicion = False
 
-        return render(request, "blog.html", {"blog": blog, "id_blog": id_blog, "imagen": obtener_avatar(request)})
+        return render(request, "blog.html", {"blog": blog, "id_blog": id_blog, "condicion": condicion, "imagen": obtener_avatar(request)})
 
     else:
         respuesta = "No enviaste datos"
@@ -128,6 +134,17 @@ def editar_avatar(request):
     else:
         formulario = AvatarForm()
     return (render(request, "editar_avatar.html", {"form": formulario, "usuario": request.user, "imagen": obtener_avatar(request)}))
+
+@login_required
+def mis_blogs(request):
+    lista_blogs = Blog.objects.filter(autor = request.user)
+    mensaje = ""
+    if (len(lista_blogs) == 0):
+        mensaje = "No tienes ningún blog todavía"
+    else:
+        mensaje = "Viendo todos tus blogs"
+
+    return (render(request, 'mis_blogs.html', {"lista_blogs": lista_blogs, "mensaje": mensaje, "imagen": obtener_avatar(request)}))
 
 # FUNCIÓN, NO VISTA
 def obtener_avatar(request):

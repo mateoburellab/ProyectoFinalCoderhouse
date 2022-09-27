@@ -18,7 +18,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         
-        <input type="submit", value="Enviar">
+        <a href="{% url 'inicio' %}"><input type="submit", value="Enviar"></a>
 
     </form>
 

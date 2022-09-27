@@ -2,24 +2,22 @@
 
 {% block head %}
 
-    <title>Páginas</title>
+    <title>Mis blogs</title>
 
 {% endblock %}
 
 {% block body %}
 
-    <h1>Páginas</h1>
-    <p>Acá va a estar el listado de todos los blogs de la página</p>
+    <h1>Mis blogs</h1>
 
-    {% for blog in blogs %}
-
+    <p>{{ mensaje }}</p>
+    {% for blog in lista_blogs %}
     <h3>{{ blog.titulo }} ({{ blog.id_blog }})</h3>
     <h4>{{ blog.subtitulo }}</h4>
     <p>Autor: {{ blog.autor }}</p>
     <p>Fecha de posteo: {{ blog.fecha_posteo }}</p>
     <a href="/blog/?id_blog={{ blog.id_blog }}">Leer más</a>
     <p>-------------------</p>
-
     {% endfor %}
 
 {% endblock %}

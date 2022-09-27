@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from AppBlogs.views import about_me, inicio, pages, form_blog, busqueda_blog, blog, register, login_request, editar_perfil, editar_avatar
+from AppBlogs.views import about_me, inicio, pages, form_blog, busqueda_blog, blog, register, login_request, editar_perfil, editar_avatar, mis_blogs
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -32,5 +32,7 @@ urlpatterns = [
     path('login/', login_request, name = 'login'),
     path('logout/', LogoutView.as_view(template_name="logout.html"), name = 'logout'),
     path('editar_perfil/', editar_perfil, name = 'editar_perfil'),
-    path('editar_avatar/', editar_avatar, name = 'editar_avatar')
+    path('editar_avatar/', editar_avatar, name = 'editar_avatar'),
+    path('mis_blogs/', mis_blogs, name = 'mis_blogs'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
