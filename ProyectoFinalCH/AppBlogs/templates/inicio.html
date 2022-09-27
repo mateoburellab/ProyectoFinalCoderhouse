@@ -10,9 +10,14 @@
 
     <h1>Inicio</h1>
     <p>Pues el Inicio</p>
+    {% if request.user.is_authenticated %}
+    <h2>Bienvenido, {{ user.username }}</h2>
+    {% endif %}
+
     <h2>
         Mensaje: {{ mensaje }}
     </h2>
+
     
 
 {% endblock %}

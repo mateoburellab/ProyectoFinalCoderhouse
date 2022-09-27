@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from AppBlogs.views import about_me, inicio, pages, form_blog, busqueda_blog, blog, register, login_request, editar_perfil
+from AppBlogs.views import about_me, inicio, pages, form_blog, busqueda_blog, blog, register, login_request, editar_perfil, editar_avatar
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('about/', about_me, name='about_me'),
+    path('about_me/', about_me, name='about_me'),
     path('inicio/', inicio, name='inicio'),
     path('pages/', pages, name='pages'),
     path('form_blog/', form_blog, name='form_blog'),
@@ -32,4 +32,5 @@ urlpatterns = [
     path('login/', login_request, name = 'login'),
     path('logout/', LogoutView.as_view(template_name="logout.html"), name = 'logout'),
     path('editar_perfil/', editar_perfil, name = 'editar_perfil'),
+    path('editar_avatar/', editar_avatar, name = 'editar_avatar')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

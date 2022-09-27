@@ -2,23 +2,21 @@
 
 {% block head %}
 
-    <title>Editar perfil</title>
+    <title>Agregar avatar</title>
 
 {% endblock %}
 
 {% block body %}
 
-    <h1>Editar perfil</h1>
-    <p>Página para editar perfil</p>
+    <h1>Editar avatar</h1>
+    <p>Editar avatar del perfil</p>
 
     <h1>Editando perfil {{ usuario }}</h1> 
-    <form action="{% url 'editar_perfil' %}" method ="POST">
+    <form action="{% url 'editar_avatar' %}" method ="POST" enctype="multipart/form-data">
 
         {% csrf_token %}
         {{form.as_p}}
 
-        <a href="{% url 'editar_avatar' %}">Editar avatar de perfil</a>
-        <br><br>
         <button type="submit">Confirmar</button>
 
     </form>

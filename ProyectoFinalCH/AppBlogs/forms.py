@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import User
+from django.contrib.auth.models import User
 
 class Formulario_blog(forms.Form):
     titulo = forms.CharField(max_length = 50)
@@ -17,7 +17,7 @@ class UserRegisterForm(UserCreationForm):
    
     last_name = forms.CharField()
     first_name = forms.CharField()
-    imagen_avatar = forms.ImageField(required=False)   
+    #imagen_avatar = forms.ImageField(required=False)   
 
     class Meta:
         model = User
@@ -40,3 +40,6 @@ class UserEditForm(UserCreationForm):
         fields = ['email', 'password1', 'password2', 'last_name', 'first_name'] 
         #Saca los mensajes de ayuda
         help_texts = {k:"" for k in fields}
+
+class AvatarForm(forms.Form):
+    imagen = forms.ImageField(label = "Imagen")
