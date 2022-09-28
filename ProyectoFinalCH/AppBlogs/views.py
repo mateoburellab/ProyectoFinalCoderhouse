@@ -1,14 +1,14 @@
+from ast import For
 import re
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
-from AppBlogs.forms import Formulario_blog, UserRegisterForm, UserEditForm, AvatarForm
-from AppBlogs.models import Blog, Avatar
+from django.views.generic import UpdateView
+from AppBlogs.forms import Formulario_blog, Formulario_editar_blog
+from AppBlogs.models import Blog
+from AppRegistro.views import obtener_avatar
 import datetime
 
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -26,6 +26,23 @@ def pages(request):
     #documento = plantilla.render(diccionario)
     #return HttpResponse(documento)
     return (render(request, "pages.html", {"blogs": blogs, "imagen": obtener_avatar(request)}))
+
+def blog(request):
+    if request.GET["id_blog"]:
+        id_blog = request.GET["id_blog"]
+        blog = Blog.objects.get(id_blog__icontains = id_blog)
+        condicion = False
+        if (blog.autor == request.user):
+            condicion = True
+        else:
+            condicion = False
+
+        return render(request, "blog.html", {"blog": blog, "id_blog": id_blog, "condicion": condicion, "imagen": obtener_avatar(request)})
+
+    else:
+        respuesta = "No enviaste datos"
+    
+    return HttpResponse(respuesta)
 
 @login_required
 def form_blog(request):
@@ -51,89 +68,40 @@ def form_blog(request):
         
     else:
         formulario = Formulario_blog()
-        return (render(request, "formulario_blog.html", {"formulario": formulario, "imagen": obtener_avatar(request)}))
+        return (render(request, "formulario_blog.html", {"form": formulario, "imagen": obtener_avatar(request)}))
 
 def busqueda_blog(request):
     return (render(request, "busqueda_blog.html", {"imagen": obtener_avatar(request)}))
 
-def blog(request):
-    if request.GET["id_blog"]:
-        id_blog = request.GET["id_blog"]
-        blog = Blog.objects.get(id_blog__icontains = id_blog)
-        condicion = False
-        if (blog.autor == request.user.username):
-            condicion = True
-        else:
-            condicion = False
-
-        return render(request, "blog.html", {"blog": blog, "id_blog": id_blog, "condicion": condicion, "imagen": obtener_avatar(request)})
-
-    else:
-        respuesta = "No enviaste datos"
-    
-    return HttpResponse(respuesta)
-
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            form.save()
-            return render(request,"inicio.html", {"mensaje":f"Usuario Creado {username} :)", "imagen": obtener_avatar(request)})
-    else:    
-        form = UserRegisterForm()
-    return render(request,"register.html", {"form": form})
-
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            usu = request.POST["username"]
-            clave = request.POST["password"]
-
-            usuario = authenticate(username=usu, password=clave)
-            if usuario is not None:
-                login(request, usuario)
-                return render(request, 'inicio.html')
-            else:
-                return render(request, 'login.html', {"form": form, "mensaje": 'Usuario o contraseña incorrectos'})
-        else:
-            return render(request, 'login.html', {"form": form, "mensaje": 'Usuario o contraseña incorrectos'})
-    else:
-        form = AuthenticationForm()
-        return render(request, 'login.html', {"form": form, "imagen": obtener_avatar(request)})
-
 @login_required
-def editar_perfil(request):
-    usuario = request.user
-    if request.method == "POST":
-        form = UserEditForm(request.POST, request.FILES, instance = usuario)
-        if form.is_valid():
-            #info = form.cleaned_data
-            #usuario.email = info["email"]
-            #usuario.password1 = info["password1"]
-            #usuario.password2 = info["password2"]
-            #usuario.save()
-            form.save()
-            return render(request, 'inicio.html', {"mensaje": f"Perfil de {usuario} editado"})
-    else:
-        form = UserEditForm(instance = usuario)
-    return render(request, 'editar_perfil.html', {"form": form, "usuario": usuario, "imagen": obtener_avatar(request)})
+def editar_blog(request):
+    context = {}
 
-@login_required
-def editar_avatar(request):
-    if (request.method == 'POST'):
-        formulario = AvatarForm(request.POST, request.FILES)
-        if (formulario.is_valid()):
-            avatar_viejo = Avatar.objects.filter(user = request.user)
-            if (len(avatar_viejo) > 0):
-                avatar_viejo.delete()
-            avatar = Avatar(user = request.user, imagen = formulario.cleaned_data['imagen'])
-            avatar.save()
-            return (render(request, 'inicio.html', {"usuario": request.user, "mensaje": "Avatar agregado exitosamente", "imagen": obtener_avatar(request)}))
-    else:
-        formulario = AvatarForm()
-    return (render(request, "editar_avatar.html", {"form": formulario, "usuario": request.user, "imagen": obtener_avatar(request)}))
+    user = request.user
+    blog_post = Blog.objects.get(id_blog = 1)
+    if request.POST:
+        form = Formulario_editar_blog(request.POST or None, request.FILES or None, instance = blog_post)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.save()
+            context['success_message'] = 'Editado correctamente'
+            blog_post = obj
+    form = Formulario_editar_blog(
+        initial = {
+            "titulo": blog_post.titulo,
+            "subtitulo": blog_post.subtitulo,
+            "cuerpo": blog_post.cuerpo,
+            "imagen": blog_post.imagen
+        }
+    )
+
+    context['form'] = form
+    return render(request, "editar_blog.html", context)
+
+#class editar_blog(UpdateView):
+    model = Blog
+    template_name = "editar_blog.html"
+    fields = ['titulo', 'subtitulo', 'cuerpo', 'imagen']
 
 @login_required
 def mis_blogs(request):
@@ -146,12 +114,3 @@ def mis_blogs(request):
 
     return (render(request, 'mis_blogs.html', {"lista_blogs": lista_blogs, "mensaje": mensaje, "imagen": obtener_avatar(request)}))
 
-# FUNCIÓN, NO VISTA
-def obtener_avatar(request):
-    if (request.user.is_authenticated):
-        lista = Avatar.objects.filter(user = request.user)
-        if (len(lista) != 0):
-            imagen = lista[0].imagen.url
-        else:
-            imagen = None
-        return imagen

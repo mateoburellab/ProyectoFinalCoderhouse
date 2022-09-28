@@ -1,0 +1,22 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Iniciar sesión</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Mensajes recibidos</h1>
+    <p>{{ aviso }}</p>
+
+    {% for mensaje in mensajes %}
+    <h3>De: {{ mensaje.emisor }}</h3>
+    <img src="{{ mensaje.imagen.url }}" width="100"></img>
+    <p>{{ mensaje.cuerpo }}</p>
+    <p>Enviado el: {{ mensaje.fecha_envio }}</p>
+    <p>--------------------</p>
+    {% endfor %}
+
+{% endblock %}

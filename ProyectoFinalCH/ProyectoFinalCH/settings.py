@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AppBlogs',
+    'AppRegistro',
+    'AppMensajes',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +59,7 @@ ROOT_URLCONF = 'ProyectoFinalCH.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['D:/Documentos/vsc/ProyectoFinal02/ProyectoFinalCH/AppBlogs/templates'],
+        'DIRS': ['D:/Documentos/vsc/ProyectoFinal02/ProyectoFinalCH/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

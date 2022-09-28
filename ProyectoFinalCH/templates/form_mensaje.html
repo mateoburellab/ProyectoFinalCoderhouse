@@ -1,0 +1,22 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Inicio</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Mensajes</h1>
+    <p>Envia un mensaje</p>
+
+<form action="/form_mensaje/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+<table>
+    {{ form.as_table }}
+</table>
+
+<input type="submit", value="Enviar">
+</form>
+{% endblock %}

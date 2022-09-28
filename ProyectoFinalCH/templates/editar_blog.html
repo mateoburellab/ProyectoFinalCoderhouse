@@ -1,0 +1,27 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Editar blog</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Editar blog</h1>
+    <p>Página para editar blog</p>
+
+    <h1>Editando blog {{ usuario }}</h1> 
+    <form action="{% url 'editar_blog' %}" method ="POST">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <br><br>
+        <button type="submit">Confirmar</button>
+
+    </form>
+
+    <h1>{{ mensaje }}</h1>
+
+{% endblock %}

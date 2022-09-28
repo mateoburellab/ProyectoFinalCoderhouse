@@ -1,0 +1,22 @@
+{% extends "padre.html" %}
+
+{% block head %}
+
+    <title>Inicio</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Mensajes</h1>
+    <p>Menú de mensajes</p>
+
+    <ul>
+        <li><a href="{% url 'form_mensaje' %}">Enviar mensaje</a></li>
+        <li><a href="{% url 'mensajes_recibidos' %}">Mensajes recibidos</a></li>
+        <li><a href="{% url 'mensajes_enviados' %}">Mensajes enviados</a></li>
+    </ul>
+
+    
+
+{% endblock %}

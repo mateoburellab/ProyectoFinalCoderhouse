@@ -12,10 +12,9 @@
     <p>Formulario para crear un blog</p>
 
     <form action="/form_blog/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-
-        <table>
-            {{ formulario.as_table }}
-        </table>
+            
+        {{ form.as_p }}
+        {{ form.media }}
         
         <input type="submit", value="Enviar">
         </form>
