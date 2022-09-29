@@ -13,8 +13,9 @@
 
     {% for blog in blogs %}
 
-    <h3>{{ blog.titulo }} ({{ blog.id_blog }})</h3>
+    <h3>{{ blog.titulo }}</h3>
     <h4>{{ blog.subtitulo }}</h4>
+    <img src="{{ blog.imagen.url }}" width="300"></img>
     <p>Autor: {{ blog.autor }}</p>
     <p>Fecha de posteo: {{ blog.fecha_posteo }}</p>
     <a href="/blog/?id_blog={{ blog.id_blog }}">Leer más</a>

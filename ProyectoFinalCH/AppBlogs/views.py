@@ -98,11 +98,6 @@ def editar_blog(request):
     context['form'] = form
     return render(request, "editar_blog.html", context)
 
-#class editar_blog(UpdateView):
-    model = Blog
-    template_name = "editar_blog.html"
-    fields = ['titulo', 'subtitulo', 'cuerpo', 'imagen']
-
 @login_required
 def mis_blogs(request):
     lista_blogs = Blog.objects.filter(autor = request.user)
@@ -113,4 +108,3 @@ def mis_blogs(request):
         mensaje = "Viendo todos tus blogs"
 
     return (render(request, 'mis_blogs.html', {"lista_blogs": lista_blogs, "mensaje": mensaje, "imagen": obtener_avatar(request)}))
-
